@@ -34,7 +34,6 @@ public class Stock{
         fw = new FileWriter(path.toFile(), false);
         fw.write("2026-01-01" + "," + currentPrice + "\n");
         fw.close();
-
     }
 
     public void calculatePrice(LocalDate date) throws IOException {
