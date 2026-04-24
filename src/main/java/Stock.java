@@ -92,4 +92,10 @@ public class Stock{
     public float getCurrentPrice(){
         return currentPrice;
     }
+
+    public String getName(){
+        return name.toUpperCase();
+    }
+
+
 }
