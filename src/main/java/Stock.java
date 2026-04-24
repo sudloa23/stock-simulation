@@ -88,4 +88,8 @@ public class Stock{
         g2d.drawString(String.valueOf(currentPrice), x, 730);
         g2d.drawString(name, x, 750);
     }
+
+    public float getCurrentPrice(){
+        return currentPrice;
+    }
 }
