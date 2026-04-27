@@ -35,48 +35,44 @@ public class Stock{
 
         path = Paths.get("data", name + ".csv");
         Files.createDirectories(path.getParent());
-        fw = new FileWriter(path.toFile(), false);
-        fw.write("2026-01-01" + "," + currentPrice + "\n");
-        fw.close();
     }
 
     public void calculatePrice(LocalDate date) throws IOException {
         fw = new FileWriter(path.toFile(), true);
-        time += deltaT;
-
         double mu = expectedDrift;
         double sigma = volatility;
         double dt = deltaT;
 
-        marketRegime += (random.nextGaussian() * 0.01);
-        marketRegime = Math.max(0.5, Math.min(2.0, volatilityState));
+        marketRegime += random.nextGaussian() * 0.01;
+        marketRegime = Math.max(0.5, Math.min(2.0, marketRegime));
 
-        volatilityState += (random.nextGaussian() * 0.05);
+        volatilityState += (1.0 - volatilityState) * 0.05
+                + random.nextGaussian() * 0.02;
         volatilityState = Math.max(0.5, Math.min(2.0, volatilityState));
 
-        shock = 0.0;
-        if(random.nextDouble() < 0.02){
-            shock = random.nextGaussian() * 0.1;
+        double shock = 0.0;
+        if (random.nextDouble() < 0.02) {
+            shock = random.nextGaussian() * sigma * 0.5;
         }
 
-        lastPrice = currentPrice;
+        double momentum = (lastPrice - lastPrice) / lastPrice;
 
-        double driftTerm = (mu * marketRegime - 0.5 * sigma * sigma * volatilityState) * dt;
-        double diffusionTerm = sigma * volatilityState * Math.sqrt(dt) * random.nextGaussian();
+        double trueValue = 100;
+        double meanReversion = (trueValue - lastPrice) * 0.001;
+
+        double driftTerm = (mu * marketRegime
+                + momentum * 0.5
+                + meanReversion
+                - 0.5 * sigma * sigma) * dt;
+
+        double diffusionTerm = sigma * volatilityState
+                * Math.sqrt(dt)
+                * random.nextGaussian();
 
         double exponent = driftTerm + diffusionTerm + shock;
 
         currentPrice = (float) (lastPrice * Math.exp(exponent));
-
-//        expression1 = (float) (expectedDrift - (Math.pow(volatility, 2) / 2)) * deltaT;
-//
-//        expression2 = (float) (volatility * Math.sqrt(deltaT) * random.nextGaussian());
-//
-//        exponent = expression1 + expression2;
-//
-//        currentPrice = (float) (lastPrice * Math.pow(2.718281828459, exponent));
-
-        fw.write(String.valueOf(date) + "," + currentPrice + "\n");
+        fw.write(String.valueOf(date) + "," + String.valueOf(currentPrice) + "\n");
         fw.close();
     }
 
