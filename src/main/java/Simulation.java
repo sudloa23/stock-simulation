@@ -43,12 +43,15 @@ public class Simulation{
     };
     private int day = 1;
     private LocalDate start = LocalDate.of(2026, 1, 1), date;
+    private Stein stein;
 
     public Simulation() throws IOException {
          for(int i = 0; i < names.length; i++){
              stocks.add(new Stock(names[i], prices[i], drifts[i], volatilities[i], colors[i]));
              //System.out.println("added Stock: " + names[i] + " price: " + prices[i] + " drift: " + drifts[i] + " volatility: " + volatilities[i]);
          }
+         stein = new Stein(stocks, 600, 50);
+         stein.setup();
     }
 
     public void draw(Graphics2D g2d) throws IOException {
@@ -59,5 +62,6 @@ public class Simulation{
         date = start.plusDays(day - 1);
         g2d.drawString(String.valueOf(date),50,50);
         day++;
+        stein.draw(g2d);
     }
 }
