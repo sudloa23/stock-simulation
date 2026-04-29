@@ -64,20 +64,7 @@ public class Stein implements Trader{
 
     @Override
     public void simulate(){
-        Collection<Integer> tempValues = wallet.values();
-        Collection<Stock> tempStocks = wallet.keySet();
-        List<Integer> amount = new ArrayList<>();
 
-        if(value > initialPrice + initialPrice*0.25){
-            for(Integer i: tempValues){
-                amount.add(i.intValue());
-            }
-
-            int i = 0;
-            for(Stock s : tempStocks){
-
-            }
-        }
     }
 
     public void updateValue(){

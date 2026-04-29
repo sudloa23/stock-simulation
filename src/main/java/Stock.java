@@ -94,5 +94,9 @@ public class Stock{
         return name.toUpperCase();
     }
 
+    public float getPercentage(){
+        return (currentPrice - lastPrice) /100;
+    }
+
 
 }
