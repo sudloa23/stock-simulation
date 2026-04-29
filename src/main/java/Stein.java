@@ -1,7 +1,5 @@
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 
 public class Stein implements Trader{
@@ -11,6 +9,7 @@ public class Stein implements Trader{
     private List<Stock> stocks = new ArrayList<>();
     private float value = 0.0f;
     private int x, y;
+    public float initialPrice = 0.0f;
 
     public Stein(List<Stock> stocks, int x, int y){
         this.x = x;
@@ -35,6 +34,7 @@ public class Stein implements Trader{
             Stock random = stocks.get((int) (Math.random()*6));
             if(random.getCurrentPrice() <= capital){
                 buy(random);
+                initialPrice += random.getCurrentPrice();
                 wallet.merge(random, 1, Integer::sum);
                 System.out.println("bought " + random.getName().toUpperCase());
             }
@@ -64,7 +64,20 @@ public class Stein implements Trader{
 
     @Override
     public void simulate(){
+        Collection<Integer> tempValues = wallet.values();
+        Collection<Stock> tempStocks = wallet.keySet();
+        List<Integer> amount = new ArrayList<>();
 
+        if(value > initialPrice + initialPrice*0.25){
+            for(Integer i: tempValues){
+                amount.add(i.intValue());
+            }
+
+            int i = 0;
+            for(Stock s : tempStocks){
+
+            }
+        }
     }
 
     public void updateValue(){
@@ -86,6 +99,13 @@ public class Stein implements Trader{
 
     public void draw(Graphics2D g2d){
         updateValue();
-        g2d.drawString("stein stock values: " + value, x, y);
+        g2d.drawString("stein: ", x, y);
+        g2d.drawString("stock value: " + value, x, y + 30);
+        g2d.drawString("stocks: ", x, y+60);
+        List<Stock> tempList = new ArrayList<>(wallet.keySet());
+        List<Integer> tempNums = new ArrayList<>(wallet.values());
+        for(int i = 0; i < wallet.size(); i++){
+            g2d.drawString(tempList.get(i).getName() + ": " + tempNums.get(i),x +40, y+60 + (30*i));
+        }
     }
 }

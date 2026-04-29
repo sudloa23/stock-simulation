@@ -55,10 +55,10 @@ public class Stock{
             shock = random.nextGaussian() * sigma * 0.5;
         }
 
-        double momentum = (lastPrice - lastPrice) / lastPrice;
+        double momentum = (currentPrice - lastPrice) / lastPrice;
 
-        double trueValue = 100;
-        double meanReversion = (trueValue - lastPrice) * 0.001;
+        double trueValue = 120;
+        double meanReversion = (trueValue - lastPrice) * 0.02;
 
         double driftTerm = (mu * marketRegime
                 + momentum * 0.5
@@ -72,6 +72,7 @@ public class Stock{
         double exponent = driftTerm + diffusionTerm + shock;
 
         currentPrice = (float) (lastPrice * Math.exp(exponent));
+        lastPrice = currentPrice;
         fw.write(String.valueOf(date) + "," + String.valueOf(currentPrice) + "\n");
         fw.close();
     }
