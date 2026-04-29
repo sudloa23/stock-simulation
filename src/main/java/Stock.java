@@ -51,7 +51,7 @@ public class Stock{
         volatilityState = Math.max(0.5, Math.min(2.0, volatilityState));
 
         double shock = 0.0;
-        if (random.nextDouble() < 0.02) {
+        if (random.nextDouble() < 0.02){
             shock = random.nextGaussian() * sigma * 0.5;
         }
 
