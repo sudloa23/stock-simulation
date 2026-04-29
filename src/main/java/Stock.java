@@ -58,7 +58,7 @@ public class Stock{
         double momentum = (currentPrice - lastPrice) / lastPrice;
 
         double trueValue = 120;
-        double meanReversion = (trueValue - lastPrice) * 0.02;
+        double meanReversion = (trueValue - lastPrice) * 0.001;
 
         double driftTerm = (mu * marketRegime
                 + momentum * 0.5
