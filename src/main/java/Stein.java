@@ -46,7 +46,7 @@ public class Stein implements Trader{
     public void buy(Stock stock){
         if(capital >= stock.getCurrentPrice()){
             capital -= stock.getCurrentPrice();
-//            wallet.merge(stock.getName(), 1, Integer::sum);
+            wallet.merge(stock, 1, Integer::sum);
         }else{
             System.out.println("Stein tried to buy " + stock.getName() + " with insufficient capital");
         }
@@ -56,7 +56,8 @@ public class Stein implements Trader{
     public void sell(Stock stock){
         if(wallet.get(stock.getName()) > 0){
             capital += stock.getCurrentPrice();
-            //wallet.merge(stock.getName(), -1, Integer::sum);
+            wallet.merge(stock, -1, Integer::sum);
+            System.out.println("Stein sold " + stock.getName() + " and made " + stock.getCurrentPrice());
         }else{
             System.out.println("Stein tried to sell " + stock.getName() + " without owning any");
         }
@@ -64,7 +65,17 @@ public class Stein implements Trader{
 
     @Override
     public void simulate(){
+        Collection<Integer> tempValues = wallet.values();
+        List<Stock> tempStock = new ArrayList<>(wallet.keySet());
+        List<Integer> amount = new ArrayList<>();
 
+        for(int i = 0; i < tempStock.size(); i++){
+            if(tempStock.get(i).getPercentage() > 0.25){
+                sell(tempStock.get(i));
+            }else if(tempStock.get(i).getPercentage() < -0.25){
+                buy(tempStock.get(i));
+            }
+        }
     }
 
     public void updateValue(){

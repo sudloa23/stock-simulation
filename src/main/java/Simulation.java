@@ -55,6 +55,7 @@ public class Simulation{
     }
 
     public void draw(Graphics2D g2d) throws IOException {
+        stein.simulate();
         for(int i = 0; i < stocks.size(); i++){
             stocks.get(i).draw(g2d, i*100 + 100);
             stocks.get(i).calculatePrice(date);
