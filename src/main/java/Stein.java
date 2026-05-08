@@ -35,8 +35,6 @@ public class Stein implements Trader{
             if(random.getCurrentPrice() <= capital){
                 buy(random);
                 initialPrice += random.getCurrentPrice();
-                wallet.merge(random, 1, Integer::sum);
-                System.out.println("bought " + random.getName().toUpperCase());
             }
         }
 
@@ -45,10 +43,11 @@ public class Stein implements Trader{
     @Override
     public void buy(Stock stock){
         if(capital >= stock.getCurrentPrice()){
+            System.out.println("Stein bought " + stock.getName() + " capital before " + capital + " capital after " + (capital - stock.getCurrentPrice()));
             capital -= stock.getCurrentPrice();
             wallet.merge(stock, 1, Integer::sum);
         }else{
-            System.out.println("Stein tried to buy " + stock.getName() + " with insufficient capital");
+            System.out.println("Stein tried to buy " + stock.getName() + " with insufficient capital: " + capital);
         }
     }
 
