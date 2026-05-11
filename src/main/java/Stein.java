@@ -43,7 +43,7 @@ public class Stein implements Trader{
     @Override
     public void buy(Stock stock){
         if(capital >= stock.getCurrentPrice()){
-            System.out.println("Stein bought " + stock.getName() + " capital before " + capital + " capital after " + (capital - stock.getCurrentPrice()));
+            System.out.println("Stein bought " + stock.getName() + " " + capital + " -> " + (capital - stock.getCurrentPrice()));
             capital -= stock.getCurrentPrice();
             wallet.merge(stock, 1, Integer::sum);
         }else{
@@ -97,12 +97,13 @@ public class Stein implements Trader{
     public void draw(Graphics2D g2d){
         updateValue();
         g2d.drawString("stein: ", x, y);
-        g2d.drawString("stock value: " + value, x, y + 30);
-        g2d.drawString("stocks: ", x, y+60);
+        g2d.drawString("capital: " + capital, x, y+30);
+        g2d.drawString("stock value: " + value, x, y + 60);
+        g2d.drawString("stocks: ", x, y+90);
         List<Stock> tempList = new ArrayList<>(wallet.keySet());
         List<Integer> tempNums = new ArrayList<>(wallet.values());
         for(int i = 0; i < wallet.size(); i++){
-            g2d.drawString(tempList.get(i).getName() + ": " + tempNums.get(i),x +40, y+60 + (30*i));
+            g2d.drawString(tempList.get(i).getName() + ": " + tempNums.get(i),x +40, y+90 + (30*i));
         }
     }
 }
