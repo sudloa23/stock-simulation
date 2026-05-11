@@ -71,7 +71,8 @@ public class Stein implements Trader{
         for(int i = 0; i < tempStock.size(); i++){
             if(tempStock.get(i).getPercentage() > 0.25){
                 sell(tempStock.get(i));
-            }else if(tempStock.get(i).getPercentage() < -0.25){
+            }
+            if(tempStock.get(i).getPercentage() < -0.25){
                 buy(tempStock.get(i));
             }
         }
